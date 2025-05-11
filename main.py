@@ -4,7 +4,8 @@ import torch.nn as nn # 신경망 모델 정의용 모듈
 from torch.utils.data import Dataset, DataLoader # 데이터셋 및 배치 로더 관련 기능
 
 # Transformers 모델 관련 import
-from transformers import AutoModel, AutoTokenizer, AdamW # Hugging Face 모델/토크나이저/최적화 도구
+from transformers import AutoModel, AutoTokenizer
+from torch.optim import AdamW
 
 # 데이터 처리 관련 import
 import pandas as pd # 데이터프레임 처리용
@@ -16,6 +17,7 @@ from google.colab import drive  # Google Colab에서 드라이브 마운트용
 # 기타 유틸리티 관련 import
 import os # 파일 경로 및 디렉토리 생성용
 from datetime import datetime # 시간 정보
+from tqdm.notebook import tqdm # 학습 진행 표시용
 
 # ------------------------------ #
 # 모델 관련 설정
@@ -31,12 +33,12 @@ def generate_label_mappings(
     data # 원본 KOLD JSON 데이터 리스트
 ):
     # 타겟 유형
-    tgt_types = sorted(set(item.get("TGT", "none") for item in data)) # 고유 타겟 유형 수집
+    tgt_types = sorted(set(item.get("TGT") or "none" for item in data)) # 고유 타겟 유형 수집
     tgt_type_to_id = {v: i for i, v in enumerate(tgt_types)} # type → id 매핑
     id_to_tgt_type = {i: v for v, i in tgt_type_to_id.items()} # type → id 매핑
     
     # 타겟 그룹
-    tgt_grps = sorted(set(item.get("GRP", "none") for item in data)) # 고유 그룹 수집
+    tgt_grps = sorted(set(item.get("GRP") or "none" for item in data)) # 고유 그룹 수집
     tgt_group_to_id = {v: i for i, v in enumerate(tgt_grps)} # group → id 매핑
     id_to_tgt_group = {i: v for v, i in tgt_group_to_id.items()} # id → group 역매핑
     
@@ -139,6 +141,8 @@ class KOLDMultiTaskModel(
         # 세 가지 태스크 예측값 반환
         return offensive, target_type, target_group
 
+from tqdm.notebook import tqdm # Colab 환경에 맞춰 notebook용 tqdm 사용
+
 # ------------------------------ #
 # 학습 루프
 # ------------------------------ #
@@ -157,7 +161,9 @@ def train(
     correct_group = 0 # 타겟 그룹 정확도 계산용
     total = 0 # 전체 샘플 수
 
-    for batch in dataloader: # 미니배치 단위로 반복
+    progress_bar = tqdm(dataloader, desc="학습 진행중") # 배치 진행률 표시용 tqdm
+
+    for batch in progress_bar: # 미니배치 단위로 반복
         optimizer.zero_grad() # 이전 gradient 초기화
         
         input_ids = batch["input_ids"].to(device) # 입력 토큰 ID를 디바이스로 이동 
@@ -193,13 +199,16 @@ def train(
 
         total += label_offensive.size(0) # 전체 샘플 수 누적
 
+        # 현재 배치 손실을 tqdm에 표시
+        progress_bar.set_postfix(loss=f"{loss.item():.4f}")
+
     avg_loss = total_loss / len(dataloader) # 평균 손실
     acc_off = correct_off / total # 공격성 정확도
     acc_type = correct_type / total # 타겟 유형 정확도
     acc_group = correct_group / total # 타겟 그룹 정확도
 
     # 손실값과 각 정확도 값 출력
-    print(f"평균 손실: {avg_loss:.4f}, 공격성 정확도: {acc_off:.4f}, 유형 정확도: {acc_type:.4f}, 그룹 정확도: {acc_group:.4f}") 
+    print(f"평균 손실: {avg_loss:.4f}, 공격성 정확도: {acc_off:.4f}, 유형 정확도: {acc_type:.4f}, 그룹 정확도: {acc_group:.4f}")
 
         
 # ------------------------------ #
