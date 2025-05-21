@@ -16,6 +16,7 @@ def project_basic_fields():
             "target_type": "$TGT",  # 타겟 유형 (예: gender, political 등)  
             "target_group": "$GRP",  # 타겟 그룹 (예: 여성, 보수 등)  
             "offensive_phrase": "$OFF_span",  # 공격성 문구  
+            "offensive_score": "$offensive_score",
             "date": "$date",  # 날짜  
             "_id": 0  # _id 필드는 제외  
         }  

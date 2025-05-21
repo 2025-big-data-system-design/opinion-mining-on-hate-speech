@@ -27,3 +27,10 @@ from .race import (
     group_by_race_year,
     project_race_year_count
 )
+
+from .target_group import (
+    match_offensive_group,
+    add_parsed_target_fields,
+    group_by_category_and_subgroup,
+    project_target_group_stats   
+)
