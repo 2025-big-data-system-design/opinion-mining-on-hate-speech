@@ -25,12 +25,13 @@ from .race import (
     explode_race,
     extract_race_and_year,
     group_by_race_year,
-    project_race_year_count
+    project_race_year_count,
+    extract_race,
+    group_by_race,
+    project_race_count
 )
 
 from .target_group import (
     match_offensive_group,
-    add_parsed_target_fields,
-    group_by_category_and_subgroup,
-    project_target_group_stats   
+    project_final
 )

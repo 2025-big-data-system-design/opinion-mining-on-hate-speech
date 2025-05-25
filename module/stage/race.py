@@ -37,6 +37,14 @@ def extract_race_and_year():
         }
     }
 
+# race 값에서 접두사 제거
+def extract_race():
+    return {
+        "$addFields": {
+            "race": { "$substr": ["$race_matches.match", 5, -1] }  # 'race-' 접두사 제거 (index 5부터)
+        }
+    }
+
 # 인종과 연도 기준으로 그룹화하여 개수를 집계하는 group 단계 반환
 def group_by_race_year():
     return {
@@ -49,12 +57,34 @@ def group_by_race_year():
         }
     }
 
+# 인종 기준으로 그룹화하여 개수를 집계하는 group 단계 반환
+def group_by_race():
+    return {
+        "$group": {
+            "_id": {
+                "race": "$race",
+            },
+            "count": { "$sum": 1 }
+        }
+    }
+
+
 # 최종 출력 필드를 구성하는 project 단계 반환
 def project_race_year_count():
     return {
         "$project": {
             "race": "$_id.race",
             "year": { "$toString": "$_id.year" },
+            "count": 1,
+            "_id": 0
+        }
+    }
+
+# 최종 출력 필드를 구성하는 project 단계 반환
+def project_race_count():
+    return {
+        "$project": {
+            "race": "$_id.race",
             "count": 1,
             "_id": 0
         }

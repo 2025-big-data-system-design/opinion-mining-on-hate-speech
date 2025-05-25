@@ -10,7 +10,8 @@ from module.pipeline import (
     get_gender_year_pipeline,  # 성별-연도별 집계 파이프라인 함수  
     get_politics_year_pipeline,  # 정치 성향-연도별 집계 파이프라인 함수 
     get_race_year_pipeline,  # 인종-연도별 집계 파이프라인 함수 
-    get_target_group_pipeline  # 타겟 그룹 집계 파이프라인 함수 
+    get_target_group_pipeline,  # 타겟 그룹 집계 파이프라인 함수 
+    get_race_pipeline
 )
 
 # MongoDB에서 파이프라인 실행 후 결과를 DataFrame으로 반환
@@ -67,3 +68,11 @@ def get_target_group_df():
     
     # 결과 DataFrame 반환
     return df
+
+def get_race_df():
+    # 인종 그룹 집계 파이프라인 실행 후 DataFrame 생성
+    df = run_pipeline(get_race_pipeline())
+    
+    # 결과 DataFrame 반환
+    return df
+
