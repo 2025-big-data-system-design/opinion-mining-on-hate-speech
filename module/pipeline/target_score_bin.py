@@ -124,8 +124,17 @@ def get_target_score_bin_pipeline():
         },
         { 
             "$sort": { 
-                "target_type": 1,  # target_type 기준 오름차순 정렬
-                "_id": 1           # 동일한 target_type 내에서는 _id 기준 정렬
+                "target_type": 1, # target_type 기준 오름차순 정렬
+                "_id": 1 # 동일한 target_type 내에서는 _id 기준 정렬
+            }
+        },
+        # _id → score_bin, target_type → TGT로 필드명 변경하는 단계
+        {
+            "$project": {
+                "score_bin": "$_id", # _id 필드를 score_bin으로 변경
+                "TGT": "$target_type", # target_type 필드를 TGT로 변경
+                "count": 1, # count 필드 유지
+                "_id": 0 # _id 제거
             }
         }
     ]
