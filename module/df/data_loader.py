@@ -12,7 +12,8 @@ from module.pipeline import (
     get_race_year_pipeline,  # 인종-연도별 집계 파이프라인 함수  
     get_race_pipeline, # 인종 그룹 집계 파이프라인 함수
     get_target_group_pipeline,  # 타겟 그룹 집계 파이프라인 함수 
-    get_target_score_bin_pipeline  # 타겟 스코어 구간화 집계 파이프라인 함수
+    get_target_score_bin_pipeline,  # 타겟 스코어 구간화 집계 파이프라인 함수
+    get_religion_pipeline
 )
 
 # MongoDB에서 파이프라인 실행 후 결과를 DataFrame으로 반환
@@ -68,6 +69,11 @@ def get_race_df():
     df = run_pipeline(get_race_pipeline())
     
     # 결과 DataFrame 반환
+    return df
+
+def get_religion_df():
+    df = run_pipeline(get_religion_pipeline())
+    
     return df
 
 # 타겟 그룹 집계를 위한 파이프라인 반환

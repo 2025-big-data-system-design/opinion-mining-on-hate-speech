@@ -30,7 +30,7 @@ def get_target_score_bin_pipeline():
                     {
                         "$bucket": {
                             "groupBy": "$offensive_score", # 공격성 점수를 기준으로 버킷 생성
-                            "boundaries": [0.0, 0.2, 0.4, 0.6, 0.8, 1.0], # 점수 구간 정의
+                            "boundaries": [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], # 점수 구간 정의
                             "default": "other", # 지정 구간에 속하지 않으면 "other"로 분류
                             "output": {
                                 "count": { "$sum": 1 }, # 각 버킷별 문서 수 집계
@@ -51,7 +51,7 @@ def get_target_score_bin_pipeline():
                     {
                         "$bucket": {
                             "groupBy": "$offensive_score", # 공격성 점수를 기준으로 버킷 생성
-                            "boundaries": [0.0, 0.2, 0.4, 0.6, 0.8, 1.0], # 점수 구간 정의
+                            "boundaries": [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], # 점수 구간 정의
                             "default": "other", # 지정 구간에 속하지 않으면 "other"로 분류
                             "output": {
                                 "count": { "$sum": 1 }, # 각 버킷별 문서 수 집계
@@ -72,7 +72,7 @@ def get_target_score_bin_pipeline():
                     {
                         "$bucket": {
                             "groupBy": "$offensive_score", # 공격성 점수를 기준으로 버킷 생성
-                            "boundaries": [0.0, 0.2, 0.4, 0.6, 0.8, 1.0], # 점수 구간 정의
+                            "boundaries": [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], # 점수 구간 정의
                             "default": "other", # 지정 구간에 속하지 않으면 "other"로 분류
                             "output": { 
                                 "count": { "$sum": 1 }, # 각 버킷별 문서 수 집계
@@ -93,7 +93,7 @@ def get_target_score_bin_pipeline():
                     {
                         "$bucket": {
                             "groupBy": "$offensive_score", # 공격성 점수를 기준으로 버킷 생성 
-                            "boundaries": [0.0, 0.2, 0.4, 0.6, 0.8, 1.0], # 점수 구간 정의
+                            "boundaries": [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], # 점수 구간 정의
                             "default": "other", # 지정 구간에 속하지 않으면 "other"로 분류
                             "output": {
                                 "count": { "$sum": 1 }, # 각 버킷별 문서 수 집계

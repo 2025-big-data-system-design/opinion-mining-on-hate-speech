@@ -38,3 +38,12 @@ from .target_group import (
     group_by_category_and_subgroup,
     project_result
 )
+
+from .religion import (
+    match_religion_group,
+    extract_religion_field,
+    explode_religion,
+    extract_religion,
+    group_by_religion,
+    project_religion_count
+)
