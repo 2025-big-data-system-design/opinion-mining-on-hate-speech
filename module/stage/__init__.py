@@ -33,5 +33,8 @@ from .race import (
 
 from .target_group import (
     match_offensive_group,
-    project_final
+    project_category_and_subgroup,
+    extract_category_and_subgroup,
+    group_by_category_and_subgroup,
+    project_result
 )

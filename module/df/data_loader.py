@@ -71,11 +71,11 @@ def get_race_df():
     return df
 
 # 타겟 그룹 집계를 위한 파이프라인 반환
-def get_target_group_pipeline():
-    return [
-        match_offensive_group(),  # 공격성 존재 필터링 단계
-        project_final()
-    ]
+def get_target_group_df():
+    
+    df = run_pipeline(get_target_group_pipeline())
+    
+    return df
     
 # 타겟 스코어 구간화 집계 데이터프레임 생성
 def get_target_score_bin_df():
